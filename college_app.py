@@ -1,9 +1,39 @@
 import streamlit as st
 import pandas as pd
 
-st.set_page_config(page_title="My College App", layout="centered")
 
-st.title("🎓 My College App")
+# Set the theme, page title, and layout
+st.set_page_config(
+    page_title="College App",
+    page_icon="🎓",  # You can change the icon
+    layout="wide",  # You can also try "centered"
+    initial_sidebar_state="expanded"  # Sidebar settings: "expanded", "collapsed"
+)
+
+st.markdown(
+    """
+    <style>
+    .stButton>button {
+        background-color: #1c1c1c;  # Dark background for buttons
+        color: white;  # White text
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+col1, col2 = st.columns(2)
+
+with col1:
+    st.header("Admin Tools")
+    st.button("Upload Materials")
+
+with col2:
+    st.header("Student Resources")
+    st.button("Download Notes")
+
+
+st.title("🎓 Darussalam")
 
 menu = st.sidebar.radio("📋 Menu", ["Home", "Announcements", "Timetable", "Materials", "Fee Status", "Contact"])
 
