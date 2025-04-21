@@ -55,24 +55,25 @@ elif menu == "Materials":
 elif menu == "Fee Status":
     st.subheader("🧾 Check Fee Status")
 
-    student_id = st.text_input("Enter your Student ID")
+    cic_number = st.text_input("Enter your CIC Number")
 
-    if student_id:
+    if cic_number:
         try:
-            df = pd.read_csv("fees.csv")  # This is where you’ll later add fee data
-            student_id = int(student_id)
-            result = df[df['student_id'] == student_id]
+            # Read Google Sheet directly as CSV
+            url = "https://docs.google.com/spreadsheets/d/1JP7N0ZQS0lL3FeEiOvIz813XqS4N6UIqahlLw6M5sNg/export?format=csv&id=1JP7N0ZQS0lL3FeEiOvIz813XqS4N6UIqahlLw6M5sNg&gid=982647782"
+            df = pd.read_csv(url)
+
+            # Assuming 'cic' is the column name in the sheet
+            result = df[df['cic'] == cic_number]
 
             if not result.empty:
-                row = result.iloc[0]
-                st.success(f"👤 Name: {row['name']}")
-                st.info(f"💰 Total Fee: ₹{row['total_fee']}")
-                st.info(f"✅ Paid: ₹{row['paid_fee']}")
-                st.warning(f"🕗 Pending: ₹{int(row['total_fee']) - int(row['paid_fee'])}")
+                st.success("✅ Student found!")
+                st.write(result)  # or format nicely using st.info()
             else:
-                st.error("❌ Student ID not found.")
-        except:
-            st.error("⚠️ Error reading fee data.")
+                st.error("❌ CIC number not found.")
+
+        except Exception as e:
+            st.error(f"⚠️ Error reading Google Sheet: {e}")
 
 elif menu == "Contact":
     st.subheader("📞 Contact")
